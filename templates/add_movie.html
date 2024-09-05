@@ -9,14 +9,21 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Add Movie</h1>
-        <form method="post">
+        <form method="POST">
+            <div class="form-group">
+                <label for="user_id">Select User</label>
+                <select class="form-control" id="user_id" name="user_id" required>
+                    {% for user in users %}
+                        <option value="{{ user.user_id }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="form-group">
                 <label for="title">Movie Title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
-            <button type="submit" class="btn btn-primary">Fetch Movie Details</button>
+            <button type="submit" class="btn btn-primary">Add Movie</button>
         </form>
-        <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Home</a>
     </div>
 </body>
 </html>

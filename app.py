@@ -67,9 +67,11 @@ def add_user():
 
 
 
-@app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
-def add_movie(user_id):
+@app.route('/add_movie', methods=['GET', 'POST'])
+def add_movie():
+    users = data_manager.get_all_users()
     if request.method == 'POST':
+        user_id = request.form['user_id']
         movie_title = request.form['title']
         response = requests.get(f'http://www.omdbapi.com/?t={movie_title}&apikey={OMDB_API_KEY}')
         if response.status_code == 200:
@@ -86,8 +88,7 @@ def add_movie(user_id):
                 return f"Movie not found: {movie_title}", 404
         else:
             return "Error fetching movie details", 500
-    return render_template('add_movie.html', user_id=user_id)
-
+    return render_template('add_movie.html', users=users)
 
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])
 def update_movie(user_id, movie_id):
