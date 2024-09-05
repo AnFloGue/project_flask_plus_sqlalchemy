@@ -4,7 +4,7 @@ import logging
 import os
 from datamanager.sqlite_data_manager import SQLiteDataManager
 from models import db, User, Movie
-
+import requests
 app = Flask(__name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'instance/moviwebapp.db')
@@ -15,6 +15,7 @@ migrate = Migrate(app, db)
 data_manager = SQLiteDataManager(app)
 
 logging.basicConfig(level=logging.DEBUG)
+OMDB_API_KEY = '4a1990ae'
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -34,6 +35,7 @@ def list_users():
     return render_template('users.html', users=users)
 
 @app.route('/users/<int:user_id>')
+@app.route('/users/<int:user_id>/movies')
 def user_movies(user_id):
     user = data_manager.get_user_by_id(user_id)
     if not user:
@@ -61,18 +63,30 @@ def add_user():
             return "Internal server error", 500
     return render_template('add_user.html')
 
+
+
+
+
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
 def add_movie(user_id):
     if request.method == 'POST':
-        name = request.form['name']
-        director = request.form['director']
-        year = request.form['year']
-        rating = request.form['rating']
-        movie = Movie(name=name, director=director, year=year, rating=rating, user_id=user_id)
-        data_manager.add_movie(movie)
-        return redirect(url_for('user_movies', user_id=user_id))
+        movie_title = request.form['title']
+        response = requests.get(f'http://www.omdbapi.com/?t={movie_title}&apikey={OMDB_API_KEY}')
+        if response.status_code == 200:
+            movie_data = response.json()
+            if movie_data['Response'] == 'True':
+                name = movie_data['Title']
+                director = movie_data['Director']
+                year = movie_data['Year']
+                rating = movie_data['imdbRating']
+                movie = Movie(name=name, director=director, year=year, rating=rating, user_id=user_id)
+                data_manager.add_movie(movie)
+                return redirect(url_for('user_movies', user_id=user_id))
+            else:
+                return f"Movie not found: {movie_title}", 404
+        else:
+            return "Error fetching movie details", 500
     return render_template('add_movie.html', user_id=user_id)
-
 
 
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])

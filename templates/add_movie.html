@@ -11,22 +11,10 @@
         <h1 class="mt-5">Add Movie</h1>
         <form method="post">
             <div class="form-group">
-                <label for="name">Movie Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <label for="title">Movie Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
-            <div class="form-group">
-                <label for="director">Director</label>
-                <input type="text" class="form-control" id="director" name="director" required>
-            </div>
-            <div class="form-group">
-                <label for="year">Year</label>
-                <input type="number" class="form-control" id="year" name="year" required>
-            </div>
-            <div class="form-group">
-                <label for="rating">Rating</label>
-                <input type="number" class="form-control" id="rating" name="rating" step="0.1" min="0" max="10" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Movie</button>
+            <button type="submit" class="btn btn-primary">Fetch Movie Details</button>
         </form>
         <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Home</a>
     </div>
