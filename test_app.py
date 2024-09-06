@@ -2,11 +2,6 @@ import pytest
 from app import app, db
 from app.models import User, Movie
 
-@pytest.fixture(scope='module')
-def setup_database():
-    db.create_all()
-    yield
-    db.drop_all()
 
 @pytest.fixture
 def client(setup_database):
