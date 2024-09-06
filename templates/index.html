@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Welcome to MovieWeb App!</h1>
-        <ul class="list-group mt-3">
-            <li class="list-group-item"><a href="{{ url_for('list_users') }}">List Users</a></li>
-            <li class="list-group-item"><a href="{{ url_for('add_user') }}">Add User</a></li>
-            <li class="list-group-item"><a href="{{ url_for('user_movies', user_id=1) }}">User Movies</a></li>
-            <li class="list-group-item"><a href="{{ url_for('add_movie') }}">Add Movie</a></li>
-        </ul>
+        <div class="mt-3">
+            <a href="{{ url_for('list_users') }}" class="btn btn-primary">List Users</a>
+            <a href="{{ url_for('add_user') }}" class="btn btn-secondary">Add User</a>
+            <a href="{{ url_for('user_movies') }}" class="btn btn-success">Users Movies</a>
+            <a href="{{ url_for('add_movie') }}" class="btn btn-info">Add Movie</a>
+        </div>
     </div>
 </body>
 </html>

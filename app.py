@@ -35,14 +35,12 @@ def list_users():
     users = User.query.all()
     return render_template('users.html', users=users)
 
-@app.route('/users/<int:user_id>/movies')
-def user_movies(user_id):
-    user = data_manager.get_user_by_id(user_id)
-    if not user:
-        logging.error(f"User not found: {user_id}")
-        return "User not found", 404
-    movies = data_manager.get_user_movies(user_id)
-    return render_template('movies.html', movies=movies, user_id=user_id)
+# app.py
+
+@app.route('/users/movies')
+def user_movies():
+    movies = Movie.query.all()  # Fetch all movies
+    return render_template('movies.html', movies=movies)
 
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():

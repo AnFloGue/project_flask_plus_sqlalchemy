@@ -65,3 +65,9 @@ class SQLiteDataManager(DataManagerInterface):
         except SQLAlchemyError as e:
             print(f"Database error: {str(e)}")
             self.db.session.rollback()
+
+    def get_all_movies(self):
+        return Movie.query.all()
+    
+    def get_movies_by_user_id(self, user_id):
+        return Movie.query.filter_by(user_id=user_id).all()
