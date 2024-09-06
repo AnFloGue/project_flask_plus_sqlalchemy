@@ -13,8 +13,8 @@
             {% for user in users %}
                 <li class="list-group-item">
                     {{ user.name }}
-                    <a href="{{ url_for('user_movies', user_id=user.id) }}" class="btn btn-primary btn-sm float-right">View Movies</a>
-                    <a href="{{ url_for('add_movie', user_id=user.id) }}" class="btn btn-secondary btn-sm float-right mr-2">Add Movie</a>
+                    <a href="{{ url_for('user_movies', user_id=user.user_id) }}" class="btn btn-primary btn-sm float-right">View Movies</a>
+                    <a href="{{ url_for('add_movie', user_id=user.user_id) }}" class="btn btn-secondary btn-sm float-right mr-2">Add Movie</a>
                 </li>
             {% endfor %}
         </ul>
