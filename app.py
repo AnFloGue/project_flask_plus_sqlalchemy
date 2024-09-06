@@ -5,6 +5,7 @@ import os
 from datamanager.sqlite_data_manager import SQLiteDataManager
 from models import db, User, Movie
 import requests
+
 app = Flask(__name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'instance/moviwebapp.db')
@@ -62,10 +63,6 @@ def add_user():
             logging.error(f"Error adding user: {e}")
             return "Internal server error", 500
     return render_template('add_user.html')
-
-
-
-
 
 @app.route('/add_movie', methods=['GET', 'POST'])
 def add_movie():
