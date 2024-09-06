@@ -39,7 +39,11 @@ def list_users():
 
 @app.route('/users/movies')
 def user_movies():
-    movies = Movie.query.all()  # Fetch all movies
+    user_id = request.args.get('user_id')
+    if user_id:
+        movies = Movie.query.filter_by(user_id=user_id).all()
+    else:
+        movies = Movie.query.all()
     return render_template('movies.html', movies=movies)
 
 @app.route('/add_user', methods=['GET', 'POST'])
