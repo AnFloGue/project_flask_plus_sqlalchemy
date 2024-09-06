@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Users</h1>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Home</a>
+
         <ul class="list-group mt-3">
             {% for user in users %}
                 <li class="list-group-item">
@@ -18,7 +20,6 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Home</a>
     </div>
 </body>
 </html>
