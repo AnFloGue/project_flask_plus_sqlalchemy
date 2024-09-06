@@ -100,10 +100,13 @@ def update_movie(user_id, movie_id):
         return redirect(url_for('user_movies', user_id=user_id))
     return render_template('update_movie.html', movie=movie)
 
+
+
 @app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
 def delete_movie(user_id, movie_id):
     data_manager.delete_movie(movie_id)
     return redirect(url_for('user_movies', user_id=user_id))
+
 
 if __name__ == '__main__':
     with app.app_context():
