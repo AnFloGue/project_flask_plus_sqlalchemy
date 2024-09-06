@@ -35,7 +35,6 @@ def list_users():
     users = User.query.all()
     return render_template('users.html', users=users)
 
-@app.route('/users/<int:user_id>')
 @app.route('/users/<int:user_id>/movies')
 def user_movies(user_id):
     user = data_manager.get_user_by_id(user_id)
