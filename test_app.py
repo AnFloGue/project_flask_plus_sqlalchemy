@@ -8,10 +8,12 @@ def client():
         yield client
 
 def test_add_movie_page(client):
-    response = client.get('/users/1/add_movie')
-    assert response.status_code != 404, "Route /add_movie not found"
+    response = client.get('/add_movie')
     assert response.status_code == 200
     assert b'Add Movie' in response.data
+    assert b'<form' in response.data
+    assert b'name="user_id"' in response.data
+    assert b'name="title"' in response.data
 
 def test_update_movie_page(client):
     response = client.get('/users/1/update_movie/1')
