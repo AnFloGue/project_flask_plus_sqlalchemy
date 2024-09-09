@@ -31,6 +31,11 @@ MovieWeb App is a web application that allows users to manage their favorite mov
 - **Methods**: GET, POST
 - **Description**: Renders a form to add a new movie and handles the form submission.
 
+### Add Movie with User ID
+- **URL**: `/add_movie?user_id=<int:user_id>`
+- **Method**: GET
+- **Description**: Renders a form to add a new movie for a specific user.
+
 ### Update Movie
 - **URL**: `/users/<int:user_id>/update_movie/<int:movie_id>`
 - **Methods**: GET, POST
