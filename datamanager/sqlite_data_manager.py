@@ -2,6 +2,14 @@ from .data_manager_interface import DataManagerInterface
 from models import db, User, Movie
 from sqlalchemy.exc import SQLAlchemyError
 
+"""
+This module provides the SQLiteDataManager class, which handles database operations
+for users and movies in a SQLite database. It includes methods to add, update, delete,
+and retrieve users and movies. The class uses SQLAlchemy for database interactions
+and handles potential database errors gracefully.
+"""
+
+
 class SQLiteDataManager(DataManagerInterface):
     def __init__(self, app):
         self.db = db

@@ -6,6 +6,13 @@ from datamanager.sqlite_data_manager import SQLiteDataManager
 from models import db, User, Movie
 import requests
 
+
+"""
+This script sets up a Flask web application for managing users and their movies.
+It connects to a SQLite database, handles routes for adding, updating, and deleting users and movies,
+and integrates with the OMDB API to fetch movie details.
+"""
+
 app = Flask(__name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'instance/moviwebapp.db')
@@ -35,11 +42,11 @@ def list_users():
     users = User.query.all()
     return render_template('users.html', users=users)
 
-# app.py
-
 @app.route('/users/movies')
 def user_movies():
     user_id = request.args.get('user_id')
+    
+    # we check if the user_id is present in the query string
     if user_id:
         movies = Movie.query.filter_by(user_id=user_id).all()
     else:
@@ -48,6 +55,8 @@ def user_movies():
 
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
+    
+    # we check if the request method is POST
     if request.method == 'POST':
         name = request.form.get('username')
         logging.debug(f"Received name: {name}")
@@ -63,15 +72,21 @@ def add_user():
         except Exception as e:
             logging.error(f"Error adding user: {e}")
             return "Internal server error", 500
+        
+    # if the request method is not POST, we render the add_user.html template
     return render_template('add_user.html')
 
 @app.route('/add_movie', methods=['GET', 'POST'])
 def add_movie():
     users = data_manager.get_all_users()
+    
+    # we check if the request method is POST
     if request.method == 'POST':
         user_id = request.form['user_id']
         movie_title = request.form['title']
         response = requests.get(f'http://www.omdbapi.com/?t={movie_title}&apikey={OMDB_API_KEY}')
+        
+        # we check if the response has all the data we need
         if response.status_code == 200:
             movie_data = response.json()
             if movie_data['Response'] == 'True':
@@ -86,11 +101,15 @@ def add_movie():
                 return f"Movie not found: {movie_title}", 404
         else:
             return "Error fetching movie details", 500
+        
+    # if the request method is not POST, we render the add_movie.html template
     return render_template('add_movie.html', users=users)
 
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])
 def update_movie(user_id, movie_id):
     movie = data_manager.get_movie_by_id(movie_id)
+    
+    # we check if the request method is POST
     if request.method == 'POST':
         movie.name = request.form['name']
         movie.director = request.form['director']
@@ -98,6 +117,8 @@ def update_movie(user_id, movie_id):
         movie.rating = request.form['rating']
         data_manager.update_movie(movie)
         return redirect(url_for('user_movies', user_id=user_id))
+    
+    # if the request method is not POST, we render the update_movie.html template
     return render_template('update_movie.html', movie=movie)
 
 
