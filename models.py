@@ -1,5 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
+"""
+This script defines the database models for users and movies in a Flask web application.
+It sets up the User and Movie classes, which represent the tables in the SQLite database.
+Each user can have multiple movies, and each movie is linked to a user.
+"""
+
+
 db = SQLAlchemy()
 
 class User(db.Model):
